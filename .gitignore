@@ -51,3 +51,4 @@ Thumbs.db
 
 # --- Secrets/config (optional) ---
 .env
+*.meta
