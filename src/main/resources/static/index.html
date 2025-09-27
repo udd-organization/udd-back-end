@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-image: url("https://images.pexels.com/photos/461940/pexels-photo-461940.jpeg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            font-family: "VT323", monospace;
+            color: #333;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.75);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333;
+        }
+
+        #fileUploadForm, #luceneQueryLanguage {
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        #resultsHeader {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            margin: 10px;
+            max-width: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .card-title {
+            font-size: 22px;
+        }
+
+        .card-text {
+            font-size: 18px;
+            max-height: 30em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+
+    <title>DDM Demo - UDD Demo</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload a file which should be indexed</h1>
+        <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+            <input type="file" name="file"/><br/><br/>
+            <input type="submit" value="Upload" id="btnSubmit" class="btn btn-primary"/>
+        </form>
+
+        <br/>
+
+        <div class="container">
+            <h1>Search</h1>
+            <form method="POST" id="luceneQueryLanguage" class="text-center">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" id="query" name="query" placeholder="Query" class="form-control" style="width: 70%;">
+                        <div class="input-group-append">
+                            <div class="input-group-text" style="max-height: 40px; width: 200px;">
+                                <input type="checkbox" id="queryTypeAdvanced" name="queryType" class="form-check-input" style="margin-left: 2px;">
+                                <label for="queryTypeAdvanced" style="display:inline-block; margin-left: 20px; margin-top: 10px;">Advanced Query</label>
+                                <input type="checkbox" id="queryTypeKNN" name="queryType" class="form-check-input" style="margin-left: 120px;">
+                                <label for="queryTypeKNN" style="display:inline-block; margin-left: 27px; margin-top: 10px;">A-KNN</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Search" id="btnSubmitLuceneQueryLanguage" class="btn btn-primary">
+            </form>
+        </div>
+
+        <div class="container" id="resultsContainer" style="display: none;">
+            <div class="row" id="resultsHeader">
+                <div class="col">
+                    <h1>Results</h1>
+                </div>
+            </div>
+
+            <div class="row" id="results" style="display: none;">
+                <!-- Your result cards will go here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#fileUploadForm").submit(function(event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/api/index',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        alert('File uploaded and indexed successfully.');
+                    }
+                });
+            });
+
+            $("#luceneQueryLanguage").submit(function(event) {
+                event.preventDefault();
+                var query = {
+                    keywords: $("#query").val().split(" ")
+                };
+                var url = '/api/search/' + ($("#queryTypeAdvanced").is(':checked') ? 'advanced' : 'simple') + '?isKnn=' + ($("#queryTypeKNN").is(':checked') ? 'true' : 'false');
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: JSON.stringify(query),
+                    contentType: 'application/json',
+                    success: function(data) {
+                        displayResults(data);
+                    }
+                });
+            });
+
+            function displayResults(data) {
+                $("#resultsContainer").hide();
+                var resultsDiv = $("#results");
+                resultsDiv.empty();
+
+                data.content.forEach(function(result) {
+                    var contentToDisplay = result.contentSr !== null ? result.contentSr : result.contentEn;
+
+                    var card = `<div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${result.title}</h5>
+                                            <p class="card-text">${contentToDisplay}</p>
+                                            <a href="http://localhost:8080/api/file/${result.serverFilename}" class="btn btn-primary" download="${result.title.replace(/\s+/g, '-')}">Download</a>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    resultsDiv.append(card);
+                });
+
+                if (data.content.length > 0) {
+                    $("#resultsContainer").show();
+                }
+                resultsDiv.show();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+services:
+  Elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.0
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+      - ./serbianStopwords.txt:/usr/share/elasticsearch/config/serbianStopwords.txt
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=true
+      - node.roles=master,data,ingest,ml
+    ports:
+      - '9200:9200'
+    networks:
+      - elk
+#    command:
+#      - bash
+#      - -c
+#      - |
+#        elasticsearch-plugin install analysis-icu --batch && elasticsearch
+
+  Logstash:
+    image: docker.elastic.co/logstash/logstash:8.18.0
+    container_name: logstash
+    restart: always
+    volumes:
+      - ./logstash/logstash-ingest-data/:/usr/share/logstash/ingest_data
+      - ./logstash/:/logstash_dir
+    #conf of logstash that needs to be done when logstash is starting
+    #its about pipeline content
+    command: logstash -f /logstash_dir/logstash.conf
+    #some of the things in logstash.conf will be mapped to Elasticsearch container, so it can send data to Elasticsearch
+    depends_on:
+      - Elasticsearch
+    ports:
+      - '9600:9600'
+    environment:
+      #set memory usage
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ES_PASSWORD: "NewStrongPassword123"
+    networks:
+      - elk
+
+  Kibana:
+    image: docker.elastic.co/kibana/kibana:8.18.0
+    container_name: kibana
+    restart: always
+    ports:
+      - '5601:5601'
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      - Elasticsearch
+    networks:
+      - elk
+
+  MinIO:
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    restart: always
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    #every document stored in minIO will be stored here
+    volumes:
+      - ./minio_storage:/data
+    command: server --console-address ":9001" /data
+    env_file: .env
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password123
+    networks:
+      - elk
+
+volumes:
+  elastic_data: { }
+
+networks:
+  elk:

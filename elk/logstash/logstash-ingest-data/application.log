@@ -1,0 +1,30 @@
+[2025-09-26T23:41:55.705274800] IncidentReport saved: id=973da0f2-e506-42c2-9c59-d9a66a71bbbb, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, file=incident-reports/sample-incident-2.pdf
+
+[2025-09-26T23:56:57.769966400] IncidentReport saved: id=df4a65a0-4988-41d8-89c4-f01eca23103b, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, file=incident-reports/sample-incident-2.pdf
+
+[2025-09-27T00:40:28.235985900] IncidentReport saved: id=a0aca240-16b6-49b9-8b95-d1a56f4de61a, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, file=incident-reports/sample-incident-2.pdf
+
+[2025-09-27T01:32:59.703560100] IncidentReport saved: id=26d1d4e6-2850-4fbc-9c73-ef5805521c8a, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, file=incident-reports/sample-incident-2.pdf
+
+[2025-09-27T01:34:06.733557400] IncidentReport saved: id=46a39873-b2da-4058-9c6e-0d220a61e3ab, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, file=incident-reports/sample-incident-2.pdf
+
+[2025-09-27T01:35:35.814406600] IncidentReport saved: id=12af2447-dd12-47ac-84e9-aaaa06eb9fed, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, file=incident-reports/sample-incident-2.pdf
+
+[2025-09-27T13:53:02.402085800] IncidentReport saved: id=1fef955b-a42b-464d-ab73-de49f08c827b, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, content=Incident Report
+Employee Name: Jane Smith
+Security Organization: Novi Sad Security Group
+Attacked Organization: Balkan Telecom
+Address: Zmaj Jovina 12, Novi Sad
+Severity: MEDIUM
+Description: Phishing emails detected targeting internal employees.
+Additional Notes: Multiple suspicious domains were blacklisted.,file=incident-reports/sample-incident-2.pdf
+
+[2025-09-27T15:16:31.907275400] IncidentReport saved: id=9e2a0b52-acee-41c2-b1ef-c5b55b7c98ac, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, content=Incident Report
+Employee Name: Jane Smith
+Security Organization: Novi Sad Security Group
+Attacked Organization: Balkan Telecom
+Address: Zmaj Jovina 12, Novi Sad
+Severity: MEDIUM
+Description: Phishing emails detected targeting internal employees.
+Additional Notes: Multiple suspicious domains were blacklisted.,file=incident-reports/sample-incident-2.pdf
+
