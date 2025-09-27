@@ -1,8 +1,20 @@
-# --- Java (Toptal) ---
+# Created by https://www.toptal.com/developers/gitignore/api/java
+# Edit at https://www.toptal.com/developers/gitignore?templates=java
+
+### Java ###
+# Compiled class file
 *.class
+
+# Log file
 *.log
+
+# BlueJ files
 *.ctxt
+
+# Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+# Package Files #
 *.jar
 *.war
 *.nar
@@ -10,33 +22,13 @@
 *.zip
 *.tar.gz
 *.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
 
-# --- IDE / build (keep if useful) ---
-target/
-build/
-.idea/
-*.iml
-.vscode/
+# End of https://www.toptal.com/developers/gitignore/api/java
 
-# --- MinIO runtime data (do not version) ---
-elk/minio_storage/**        # your actual path
-**/.minio.sys/**            # MinIO system dir anywhere
-*.meta                      # xl.meta etc.
-
-# --- Elasticsearch data (if bind-mounted) ---
-elk/elasticsearch/data/**
-
-# --- Logstash runtime & sample inputs (optional) ---
-logstash/data/**
-logstash/logstash-ingest-data/**
-logstash/.sincedb*
-
-# --- OS junk & secrets ---
-Thumbs.db
-.DS_Store
-.env
-
-# --- If these PDFs are uploads, not code ---
-pdfs/**
+.minio.sys/
+minio_storage/.minio.sys/
+minio_storage/
