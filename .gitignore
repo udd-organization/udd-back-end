@@ -52,3 +52,11 @@ Thumbs.db
 # --- Secrets/config (optional) ---
 .env
 *.meta
+
+# MinIO runtime
+elk/minio_storage/**
+**/.minio.sys/**
+*.meta
+
+# keep folder but not contents (optional)
+!elk/minio_storage/.keep
