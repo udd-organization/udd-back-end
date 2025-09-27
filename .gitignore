@@ -31,3 +31,23 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# --- MinIO runtime data (do not version) ---
+elk/minio_storage/
+**/.minio.sys/
+
+# --- Elasticsearch data if you ever bind-mount it locally ---
+elk/elasticsearch/data/
+
+# --- Logstash runtime + sample inputs (optional) ---
+logstash/data/
+logstash/logstash-ingest-data/
+logstash/.sincedb*
+*.log
+
+# --- OS junk ---
+Thumbs.db
+.DS_Store
+
+# --- Secrets/config (optional) ---
+.env
