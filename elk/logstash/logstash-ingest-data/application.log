@@ -28,3 +28,88 @@ Severity: MEDIUM
 Description: Phishing emails detected targeting internal employees.
 Additional Notes: Multiple suspicious domains were blacklisted.,file=incident-reports/sample-incident-2.pdf
 
+[2025-09-27T16:19:47.566463300] IncidentReport saved: id=e7bf700a-bb17-4eb4-a7fa-2ef334a29d92, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, content=Incident Report
+Employee Name: Jane Smith
+Security Organization: Novi Sad Security Group
+Attacked Organization: Balkan Telecom
+Address: Zmaj Jovina 12, Novi Sad
+Severity: MEDIUM
+Description: Phishing emails detected targeting internal employees.
+Additional Notes: Multiple suspicious domains were blacklisted.,file=incident-reports/sample-incident-2.pdf
+
+[2025-09-27T23:59:17.692558500] IncidentReport saved: id=b6febf46-4d10-4ff3-aaf3-94336bc5fc48, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: Phishing emails detected targeting internal employees.
+Additional Notes: Multiple suspicious domains were blacklisted.,file=incident-reports/sample-incident-2.pdf
+
+[2025-09-28T00:25:42.895735500] IncidentReport saved: id=d0c3c69e-8ef1-473f-b052-dce5c2e93591, employee=Jane Smith, securityOrg=Novi Sad Security Group, attackedOrg=Balkan Telecom, severity=MEDIUM, attackedOrgAddress=Zmaj Jovina 12, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: Phishing emails detected targeting internal employees.
+Additional Notes: Multiple suspicious domains were blacklisted.,file=incident-reports/sample-incident-2.pdf
+
+[2025-09-28T13:11:22.396373500] IncidentReport saved: id=5bd0cfa2-a08b-4852-90a6-0cd7da036920, employee=John Doe edited, securityOrg=CyberSec Novi Sad edited, attackedOrg=Target Systems d.o.o. edited, severity=LOW, attackedOrgAddress=Bulevar Oslobodjenja 1, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: Unauthorized access detected on internal server.
+Additional Notes: User reported suspicious login attempts.,file=incident-reports/sample-incident.pdf
+
+[2025-09-28T13:45:57.923742500] IncidentReport saved: id=e68e147f-1768-4e48-a12e-3795e929b6ab, employee=John Doe EDITED, securityOrg=CyberSec Novi Sad, attackedOrg=Target Systems Ltd. edited, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobodjenja 1, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: Unauthorized access detected on internal server.
+Additional Notes: User reported suspicious login attempts.,file=incident-reports/e68e147f-1768-4e48-a12e-3795e929b6ab.pdf
+
+[2025-09-28T14:09:52.248653600] IncidentReport saved: id=275b69b1-57b2-4f0f-bbbd-5fbf969724be, employee=John Doe EDITED, securityOrg=CyberSec Novi Sad, attackedOrg=Target Systems Ltd. edited, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobodjenja 1, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: Unauthorized access detected on internal server.
+Additional Notes: User reported suspicious login attempts.,file=incident-reports/incident_report_1.pdf
+
+[2025-09-28T14:45:04.983692700] IncidentReport saved: id=0fc849b1-3a10-463d-9d9b-1532b5159dbb, employee=John Doe EDITED, securityOrg=CyberSec Novi Sad, attackedOrg=Target Systems Ltd. ed, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobodjenja 1, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: Unauthorized access detected on internal server.
+Additional Notes: User reported suspicious login attempts.,file=incident-reports/incident_report_1.pdf
+
+[2025-09-28T14:59:18.390121200] IncidentReport saved: id=6c9c088a-cbb0-4f13-9183-1a4b1aee21e6, employee=Jane Smith EDITED, securityOrg=InfoGuard Belgrade, attackedOrg=Data Solutions Inc., severity=CRITICAL, attackedOrgAddress=Knez Mihailova 10, attackedOrgCity=Belgrade, content=Incident Report
+
+Description: Phishing attempt detected in employee emails.
+Additional Notes: Suspicious links reported by multiple users.,file=incident-reports/incident_report_2.pdf
+
+[2025-09-28T15:02:10.503115] IncidentReport saved: id=4a024497-b9df-4a8b-a2bc-a851016a4de6, employee=Michael Brown ttt, securityOrg=SecureTech Subotica ttt, attackedOrg=Global Finance Corp. ttt, severity=MEDIUM, attackedOrgAddress=Korzo 15, attackedOrgCity=Subotica, content=Incident Report
+
+Description: Unusual outbound traffic detected from workstation.
+Additional Notes: Traffic flagged but no data exfiltration confirmed.,file=incident-reports/incident_report_3.pdf
+
+[2025-09-28T16:48:11.885169900] IncidentReport saved: id=ba1f553e-8c48-4715-a70f-24b26a584349, employee=Đorđe Ćirić, securityOrg=CyberŠtit Novi Sad, attackedOrg=BlueByte d.o.o, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobođenja 15, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description:
+Višestruki neuspešni pokušaji SSH. Prijave zabeležene na perimetarskom
+serveru.
+Additional Notes:
+IP adrese blokirane zaštitnim zidom, nalozi primorani na reset lozinke.,file=incident-reports/incident_report_serbian_content.pdf
+
+[2025-09-28T16:53:44.233080600] IncidentReport saved: id=583a8c03-4416-4a8f-8f69-720cfcc8cb81, employee=Petar Petrović, securityOrg=Bezbednost d.o.o, attackedOrg=Telenor Srbija, severity=MEDIUM, attackedOrgAddress=Bulevar Oslobođenja 10, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description:
+Višestruki neuspešni pokušaji napada telenor platnih kartica. Prijave zabeležene na bezbednosnom
+serveru.
+Additional Notes:
+IP adrese blokirane, korisnici primorani na promenu PIN-a.,file=incident-reports/izvestaj_1.pdf
+
+[2025-09-28T16:59:36.848817700] IncidentReport saved: id=44053ed2-2df7-4f5a-9e4b-cd5aba637f84, employee=Miloš Živković, securityOrg=InfoGuard Beograd, attackedOrg=RetailHub a.d., severity=HIGH, attackedOrgAddress=Kralja Petra 22, attackedOrgCity=Beograd, content=Incident Report
+
+Description:
+POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene prekide
+veze.
+Additional Notes:
+Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2.pdf
+
+[2025-09-29T00:31:30.049033400] IncidentReport saved: id=18fdf181-8f93-4c10-ac00-ee7602e73f32, employee=Miloš Živković edited, securityOrg=InfoGuard Beograd edited, attackedOrg=RetailHub a.d., severity=HIGH, attackedOrgAddress=Kralja Petra 22, attackedOrgCity=Beograd, content=Incident Report
+
+Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
+prekide veze.
+Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2 (1).pdf
+
+[2025-09-29T19:23:30.200099900] IncidentReport saved: id=5abae183-9adf-4b55-8d0c-2dd37ea0ef9b, employee=Miloš Živković edited 2, securityOrg=InfoGuard Beograd, attackedOrg=RetailHub a.d. edited, severity=HIGH, attackedOrgAddress=Kralja Petra 22, attackedOrgCity=Beograd, content=Incident Report
+
+Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
+prekide veze.
+Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2 (1).pdf
+

@@ -74,8 +74,24 @@ services:
     networks:
       - elk
 
+  Keycloak:
+    image: quay.io/keycloak/keycloak:25.0
+    container_name: keycloak
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "9099:8080"     
+    volumes:
+      - keycloak-data:/opt/keycloak/data     
+    restart: unless-stopped
+    networks:
+      - elk
+
 volumes:
   elastic_data: { }
+  keycloak-data:
 
 networks:
   elk:

@@ -1,13 +1,14 @@
 package com.example.ddmdemo.service.impl;
 
-import com.example.ddmdemo.enums.SeverityLevel;
 import com.example.ddmdemo.model.IncidentReport;
 import com.example.ddmdemo.modelIndex.IncidentReportIndex;
 import com.example.ddmdemo.repositoryIndex.IncidentReportIndexRepository;
 import com.example.ddmdemo.respository.IncidentReportRepository;
 import com.example.ddmdemo.service.interfaces.IncidentReportService;
+import com.example.ddmdemo.utils.IncidentReportPdfRender;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -72,6 +73,22 @@ public class IncidentReportServiceImpl implements IncidentReportService {
         }
     }
 
+    private String uploadFileToMinio(byte[] bytes, String objectName, String contentType) {
+        try (InputStream is = new java.io.ByteArrayInputStream(bytes)) {
+            minioClient.putObject(
+                    PutObjectArgs.builder()
+                            .bucket("security-incidents")
+                            .object(objectName)
+                            .stream(is, bytes.length, -1)
+                            .contentType(contentType != null ? contentType : "application/pdf")
+                            .build()
+            );
+            return objectName;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to upload file to MinIO", e);
+        }
+    }
+
     @Override
     public IncidentReport update(UUID id, IncidentReport updatedReport) {
         IncidentReport existing = getById(id);
@@ -88,6 +105,7 @@ public class IncidentReportServiceImpl implements IncidentReportService {
         incidentReportRepository.deleteById(id);
     }
 
+    /*
     @Override
     public IncidentReport createIncidentReport(MultipartFile pdfFile, IncidentReport report, String content) {
         String serverFilename = uploadFileToMinio(pdfFile);
@@ -117,6 +135,43 @@ public class IncidentReportServiceImpl implements IncidentReportService {
         logToFile(savedIncidentReport, content);
 
         return savedIncidentReport;
+    }
+
+     */
+
+    @Override
+    @Transactional
+    public IncidentReport createIncidentReport(MultipartFile originalFile,
+                                               IncidentReport report,
+                                               String content) {
+        // Build a canonical PDF that matches your original layout (no ID/Content)
+        byte[] pdfBytes;
+        try {
+            pdfBytes = IncidentReportPdfRender.render(report, content);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to render PDF", e);
+        }
+
+        // Upload FIRST to the same MinIO key (overwrite), so file_path is known before DB insert
+        String objectName = "incident-reports/" + originalFile.getOriginalFilename();
+        uploadFileToMinio(pdfBytes, objectName, "application/pdf");
+
+        // Persist with non-null file_path
+        report.setFilePath(objectName);
+        IncidentReport saved = create(report);
+
+        // Index and log (content unchanged)
+        IncidentReportIndex ix = new IncidentReportIndex();
+        ix.setEmployeeFullName(saved.getEmployeeFullName());
+        ix.setSecurityOrganizationName(saved.getSecurityOrganizationName());
+        ix.setAttackedOrganizationName(saved.getAttackedOrganizationName());
+        ix.setSeverity(saved.getSeverity().toString());
+        ix.setDatabaseId(saved.getId().toString());
+        ix.setContent(content != null ? content : "");
+        incidentReportIndexRepository.save(ix);
+
+        logToFile(saved, content != null ? content : "");
+        return saved;
     }
 
     private void logToFile(IncidentReport report, String content){
