@@ -1,15 +1,12 @@
 package com.example.ddmdemo.service.interfaces;
 
-import com.example.ddmdemo.indexmodel.DummyIndex;
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import com.example.ddmdemo.dto.IncidentReportDto;
+import com.example.ddmdemo.model.IncidentReport;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface SearchService {
-
-    Page<DummyIndex> simpleSearch(List<String> keywords, Pageable pageable, boolean isKNN);
-
-    Page<DummyIndex> advancedSearch(List<String> expression, Pageable pageable);
+    List<IncidentReportDto> search(List<String> keywords, String type);
 }

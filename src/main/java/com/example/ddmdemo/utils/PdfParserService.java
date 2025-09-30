@@ -86,9 +86,10 @@ public class PdfParserService {
                     nz(employeeFullName),
                     nz(securityOrganization),
                     nz(attackedOrganization),
-                    (severity != null ? severity : SeverityLevel.LOW),
+                    (severity != null ? severity.toString() : SeverityLevel.LOW.toString()),
                     nz(attackedOrgAddress),
-                    remainingContent
+                    remainingContent,
+                    ""
             );
 
         } catch (IOException | SAXException | TikaException e) {

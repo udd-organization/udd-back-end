@@ -113,3 +113,23 @@ Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
 prekide veze.
 Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2 (1).pdf
 
+[2025-09-29T21:23:59.079181] IncidentReport saved: id=8b7e0187-1143-4bcb-895f-1c56db5c8713, employee=Milica Pe, securityOrg=InfoGuard Beograd, attackedOrg=Kalem d.o.o., severity=MEDIUM, attackedOrgAddress=Danila Kisa 13, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
+prekide veze.
+Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2 (1).pdf
+
+[2025-09-29T23:48:19.276079] IncidentReport saved: id=53993e97-cc79-4160-b85a-a7473f292b14, employee=Milica Pe, securityOrg=InfoGuard Beograd, attackedOrg=Kalem d.o.o., severity=MEDIUM, attackedOrgAddress=Danila Kisa 13, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
+prekide veze.
+Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2 (1) (1).pdf
+
+[2025-09-29T23:57:24.816672900] IncidentReport saved: id=3a1a5174-97d4-4c25-b282-efbf3f3c1fab, employee=Miloš Živković, securityOrg=InfoGuard Beograd, attackedOrg=RetailHub a.d., severity=HIGH, attackedOrgAddress=Kralja Petra 22, attackedOrgCity=Beograd, content=Incident Report
+
+Description:
+POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene prekide
+veze.
+Additional Notes:
+Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2.pdf
+

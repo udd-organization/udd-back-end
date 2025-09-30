@@ -1,9 +1,11 @@
 package com.example.ddmdemo.controller;
 
 import com.example.ddmdemo.dto.IncidentReportDto;
+import com.example.ddmdemo.dto.SearchQueryDto;
 import com.example.ddmdemo.mapper.IncidentReportMapper;
 import com.example.ddmdemo.model.IncidentReport;
 import com.example.ddmdemo.service.interfaces.IncidentReportService;
+import com.example.ddmdemo.service.interfaces.SearchService;
 import com.example.ddmdemo.utils.PdfParserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class IncidentReportController {
 
     private final IncidentReportService incidentReportService;
     private final PdfParserService pdfParserService;
+    private final SearchService searchService;
     //private final PdfEditService pdfEditService;
 
     @GetMapping
@@ -87,8 +90,15 @@ public class IncidentReportController {
             @RequestPart("file") MultipartFile pdfFile,
             @Valid @RequestPart("metadata") IncidentReportDto dto) {
             IncidentReport report = IncidentReportMapper.toEntity(dto);
-            IncidentReport savedIncident = incidentReportService.createIncidentReport(pdfFile, report, dto.content());
+            IncidentReport savedIncident = incidentReportService.createIncidentReport(pdfFile, report, dto.getContent());
 
             return ResponseEntity.ok(IncidentReportMapper.toDto(savedIncident));
+    }
+
+    @PostMapping("/search/{searchType}")
+    public ResponseEntity<List<IncidentReportDto>> search(
+            @RequestBody SearchQueryDto searchQueryDto,
+            @PathVariable String searchType) {
+        return ResponseEntity.ok(searchService.search(searchQueryDto.keywords(), searchType));
     }
 }

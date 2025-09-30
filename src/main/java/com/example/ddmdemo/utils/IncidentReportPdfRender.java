@@ -27,7 +27,7 @@ public final class IncidentReportPdfRender {
 
         try (PDDocument doc = new PDDocument()) {
 
-            // ✅ Load embedded Unicode fonts (supports Đ/đ/č/ć/š/ž)
+            // Load embedded Unicode fonts (supports Đ/đ/č/ć/š/ž)
             PDFont REGULAR = loadFont(doc, FONT_REGULAR);
             PDFont BOLD    = loadFont(doc, FONT_BOLD);
 
