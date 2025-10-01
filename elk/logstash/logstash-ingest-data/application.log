@@ -133,3 +133,10 @@ veze.
 Additional Notes:
 Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2.pdf
 
+[2025-10-01T00:09:27.566338100] IncidentReport saved: id=a64c0a47-bd9d-4c31-9e0c-867a2e0b71f2, employee=Ana Radovanovic, securityOrg=CyberŠtit Novi Sad, attackedOrg=Kalem d.o.o, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobođenja 15, attackedOrgCity=Novi Sad, content=Incident Report
+
+Description: Višestruki neuspešni pokušaji SSH. Prijave zabeležene na
+perimetarskom serveru.
+Additional Notes: IP adrese blokirane zaštitnim zidom, nalozi primorani na reset
+lozinke.,file=incident-reports/izvestaj_1.pdf
+

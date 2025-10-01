@@ -30,8 +30,27 @@ public class SearchServiceImpl implements SearchService {
     private final ElasticsearchOperations elasticsearchOperations;
     private final IncidentReportRepository incidentReportRepository;
 
+    private static final Set<String> KEYWORD_FIELDS = Set.of(
+            "severity"
+    );
+
+    private static final List<String> TEXT_FIELDS = List.of(
+            "employee_full_name",
+            "security_organization_name",
+            "attacked_organization_name",
+            "content"
+    );
+
+    private static final List<String> SEARCH_FIELDS = List.of(
+            "employee_full_name^2",
+            "security_organization_name",
+            "attacked_organization_name",
+            "content",
+            "severity"
+    );
+
     @Override
-    public List<IncidentReportDto> search(List<String> keywords, String typeOfSearch)
+    public List<IncidentReportDto> search(List<String> keywords, String rawQuery, String typeOfSearch)
     {
         List<HighlightField> highlightFields = new ArrayList<>();
 
@@ -49,14 +68,18 @@ public class SearchServiceImpl implements SearchService {
                 .build();
 
         NativeQueryBuilder searchQueryBuilder = new NativeQueryBuilder()
-                .withQuery(buildSimpleSearchQuery(keywords, typeOfSearch))
+                .withQuery(buildSimpleSearchQuery(keywords, rawQuery, typeOfSearch))
                 .withHighlightQuery(new HighlightQuery(new Highlight(params, highlightFields), IncidentReportIndex.class)
                 );
 
         return runQuery(searchQueryBuilder.build());
     }
 
-    private Query buildSimpleSearchQuery(List<String> tokens, String typeOfSearch){
+    private Query buildSimpleSearchQuery(List<String> tokens, String rawQuery, String typeOfSearch){
+        String trimmed = rawQuery != null ? rawQuery.trim() : "";
+        boolean hasRaw = !trimmed.isBlank();
+        boolean hasTokens = tokens != null && !tokens.isEmpty();
+
         switch(typeOfSearch){
             case "simple":
                 return BoolQuery.of(q -> q.should(mb -> mb.bool(b -> {
@@ -73,18 +96,15 @@ public class SearchServiceImpl implements SearchService {
                             return b;
                         })
                 ))._toQuery();
-            /*case "combinedBooleanSemiStructured":
-                //one full expression has 2 operands and an operator
-                if(tokens.size() < 3){
-                    throw new MalformedQueryException("Search query malformed");
+            case "boolean":
+                if (!hasRaw && !hasTokens) {
+                    return QueryBuilders.matchAll(m -> m);
                 }
+                String raw = hasRaw ? trimmed : String.join(" ", tokens);
 
-                List<String> boolTokens = tokenize(Strings.join(tokens, " "));
-                Parser parser = new Parser(boolTokens);
-                Node ast = parser.parse(); //root node
-                return buildQueryFromNode(ast);
+                BooleanDsl dsl = new BooleanDsl(KEYWORD_FIELDS, TEXT_FIELDS, SEARCH_FIELDS);
 
-             */
+                return dsl.parseToQuery(raw);
             default:
                 return null;
         }

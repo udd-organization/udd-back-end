@@ -99,6 +99,6 @@ public class IncidentReportController {
     public ResponseEntity<List<IncidentReportDto>> search(
             @RequestBody SearchQueryDto searchQueryDto,
             @PathVariable String searchType) {
-        return ResponseEntity.ok(searchService.search(searchQueryDto.keywords(), searchType));
+        return ResponseEntity.ok(searchService.search(searchQueryDto.keywords(), searchQueryDto.rawQuery(), searchType));
     }
 }
