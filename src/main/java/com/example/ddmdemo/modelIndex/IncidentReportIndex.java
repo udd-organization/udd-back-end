@@ -63,14 +63,13 @@ public class IncidentReportIndex {
     @Field(type = FieldType.Text, store = true, name = "content", analyzer = "serbian_simple", searchAnalyzer = "serbian_simple")
     private String content;
 
-    //TODO: add later
-    /*
     @GeoPointField
     private String location;
 
     @Field(type = FieldType.Keyword, store = true)
     private String city;
 
+    /*
     @Field(type = FieldType.Object)
     private VectorizedContent vectorizedContent;
      */

@@ -132,11 +132,29 @@ POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene prekide
 veze.
 Additional Notes:
 Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu.,file=incident-reports/izvestaj_2.pdf
-
-[2025-10-01T00:09:27.566338100] IncidentReport saved: id=a64c0a47-bd9d-4c31-9e0c-867a2e0b71f2, employee=Ana Radovanovic, securityOrg=CyberŠtit Novi Sad, attackedOrg=Kalem d.o.o, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobođenja 15, attackedOrgCity=Novi Sad, content=Incident Report
+[2025-10-01T23:15:03.892633900] IncidentReport saved: id=f2cce086-6055-45f4-933e-bca69e57c745, employee=Ana Radovanović, securityOrg=CyberŠtit Novi Sad, attackedOrg=Kalem d.o.o, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobođenja 15, attackedOrgCity=Novi Sad, latitude=45.2625446, longitude=19.8322558, content=Incident Report
 
 Description: Višestruki neuspešni pokušaji SSH. Prijave zabeležene na
 perimetarskom serveru.
 Additional Notes: IP adrese blokirane zaštitnim zidom, nalozi primorani na reset
-lozinke.,file=incident-reports/izvestaj_1.pdf
+lozinke., file=incident-reports/izvestaj_1.pdf
+
+[2025-10-01T23:16:25.277636500] IncidentReport saved: id=54e1f716-4408-4354-a8a6-00f30fff1cd8, employee=Svetozar Ivić, securityOrg=InfoGuard Beograd, attackedOrg=RetailHub a.d., severity=MEDIUM, attackedOrgAddress=Danila Kiša 10, attackedOrgCity=Novi Sad, latitude=45.2493232, longitude=19.8372413, content=Incident Report
+
+Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
+prekide veze.
+Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu., file=incident-reports/izvestaj_2 (1).pdf
+
+[2025-10-01T23:17:45.435925800] IncidentReport saved: id=b6966f80-0004-4787-8290-884aa583f68d, employee=Milica Petrović, securityOrg=InfoGuard Beograd, attackedOrg=Telenor d.o.o, severity=LOW, attackedOrgAddress=Kralja Petra 22, attackedOrgCity=Beograd, latitude=44.8194549, longitude=20.4549466, content=Incident Report
+
+Description:
+POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene prekide
+veze.
+Additional Notes:
+Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu., file=incident-reports/izvestaj_2.pdf
+
+[2025-10-02T01:05:51.882445500] IncidentReport saved: id=c683901e-ecd3-45e4-a7de-8cb4c076957f, employee=Ana Radovanovic, securityOrg=Ana Security, attackedOrg=AnaIT, severity=LOW, attackedOrgAddress=Dunavska 3, attackedOrgCity=Novi Sad, latitude=45.2568232, longitude=19.8486227, content=Incident Report
+
+Opis: Detektovani višestruki neuspešni pokušaji SSH prijave na server SRV-GW-01 sa IP 203.0.113.57 (≈2.000 pokušaja u 5 min).
+Detekcija: IDS/Fail2Ban upozorenje u 14:23, automatizovano blokiran opseg 203.0.113.0/24., file=incident-reports/incident_report_6.pdf
 

@@ -4,6 +4,7 @@ import com.example.ddmdemo.model.IncidentReport;
 import com.example.ddmdemo.modelIndex.IncidentReportIndex;
 import com.example.ddmdemo.repositoryIndex.IncidentReportIndexRepository;
 import com.example.ddmdemo.respository.IncidentReportRepository;
+import com.example.ddmdemo.service.interfaces.GeocodingService;
 import com.example.ddmdemo.service.interfaces.IncidentReportService;
 import com.example.ddmdemo.utils.IncidentReportPdfRender;
 import io.minio.MinioClient;
@@ -27,13 +28,16 @@ public class IncidentReportServiceImpl implements IncidentReportService {
     private final IncidentReportRepository incidentReportRepository;
     private final IncidentReportIndexRepository incidentReportIndexRepository;
     private final MinioClient minioClient;
+    private final GeocodingService geocodingService;
 
     public IncidentReportServiceImpl(IncidentReportRepository incidentReportRepository,
                                      IncidentReportIndexRepository incidentReportIndexRepository,
-                                     MinioClient minioClient) {
+                                     MinioClient minioClient,
+                                     GeocodingService geocodingService) {
         this.incidentReportRepository = incidentReportRepository;
         this.incidentReportIndexRepository = incidentReportIndexRepository;
         this.minioClient = minioClient;
+        this.geocodingService = geocodingService;
     }
 
     @Override
@@ -168,6 +172,18 @@ public class IncidentReportServiceImpl implements IncidentReportService {
         ix.setSeverity(saved.getSeverity().toString());
         ix.setDatabaseId(saved.getId().toString());
         ix.setContent(content != null ? content : "");
+        String address = saved.getAttackedOrganizationAddress();
+        String city = null;
+        if (address != null && address.contains(",")) {
+            city = address.substring(address.lastIndexOf(",") + 1).trim();
+        }
+        ix.setCity(city);
+        double[] coords = geocodingService.getCoordinates(address);
+        if (coords != null) {
+            double lat = coords[0];
+            double lon = coords[1];
+            ix.setLocation(lat + "," + lon);
+        }
         incidentReportIndexRepository.save(ix);
 
         logToFile(saved, content != null ? content : "");
@@ -175,16 +191,19 @@ public class IncidentReportServiceImpl implements IncidentReportService {
     }
 
     private void logToFile(IncidentReport report, String content){
-        //TODO: add geoPoint
-        //get geoPoints from address
-        /*GeoPoint addressGeoPoint = new GeoPoint(0.0, 0.0);
-        try {
-            addressGeoPoint = GeoPointCalculator.Calculate(securityIncident.address);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        double lat;
+        double lon;
 
-         */
+        try {
+            double[] coords = geocodingService.getCoordinates(report.getAttackedOrganizationAddress());
+            if (coords == null) {
+                throw new RuntimeException("Geocoding returned null for address: " + report.getAttackedOrganizationAddress());
+            }
+            lat = coords[0];
+            lon = coords[1];
+        } catch (Exception e) {
+            throw new RuntimeException("Could not resolve coordinates for: " + report.getAttackedOrganizationAddress(), e);
+        }
 
         String address = report.getAttackedOrganizationAddress().split(", ")[0];
         String city = report.getAttackedOrganizationAddress().split(", ")[1];
@@ -198,7 +217,9 @@ public class IncidentReportServiceImpl implements IncidentReportService {
                         "severity=%s, " +
                         "attackedOrgAddress=%s, " +
                         "attackedOrgCity=%s, " +
-                        "content=%s," +
+                        "latitude=%s, " +
+                        "longitude=%s, " +
+                        "content=%s, " +
                         "file=%s%n",
                 java.time.LocalDateTime.now(),
                 report.getId(),
@@ -208,9 +229,11 @@ public class IncidentReportServiceImpl implements IncidentReportService {
                 report.getSeverity(),
                 address,
                 city,
+                lat,
+                lon,
                 content,
                 report.getFilePath()
-                );
+        );
 
         try {
             String projectRoot = System.getProperty("user.dir");
