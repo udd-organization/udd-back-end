@@ -69,9 +69,6 @@ public class IncidentReportIndex {
     @Field(type = FieldType.Keyword, store = true)
     private String city;
 
-    /*
-    @Field(type = FieldType.Object)
-    private VectorizedContent vectorizedContent;
-     */
-    //TODO: maybe add contentSr and contentEN (index model)
+    @Field(type = FieldType.Dense_Vector, dims = 384, similarity = "cosine")
+    private float[] vectorizedContent;
 }

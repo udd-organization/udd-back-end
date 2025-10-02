@@ -25,7 +25,6 @@ public class IncidentReportController {
     private final IncidentReportService incidentReportService;
     private final PdfParserService pdfParserService;
     private final SearchService searchService;
-    //private final PdfEditService pdfEditService;
 
     @GetMapping
     public ResponseEntity<List<IncidentReportDto>> getAll() {
@@ -62,18 +61,6 @@ public class IncidentReportController {
         incidentReportService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-    /*
-    @PostMapping("/upload")
-    public ResponseEntity<IncidentReportDto> uploadIncidentReport(
-            @RequestPart("file") MultipartFile file,
-            @Valid @RequestPart("metadata") IncidentReportDto dto) {
-        String fileUrl = incidentReportService.uploadFileToMinio(file);
-        IncidentReport report = IncidentReportMapper.toEntity(dto);
-        report.setFilePath(fileUrl);
-        IncidentReport saved = incidentReportService.create(report);
-        return ResponseEntity.ok(IncidentReportMapper.toDto(saved));
-    }*/
 
     @PostMapping(value = "/upload/parse", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<IncidentReportDto> parseOnly(

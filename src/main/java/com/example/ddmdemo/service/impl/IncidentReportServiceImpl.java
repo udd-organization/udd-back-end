@@ -7,6 +7,7 @@ import com.example.ddmdemo.respository.IncidentReportRepository;
 import com.example.ddmdemo.service.interfaces.GeocodingService;
 import com.example.ddmdemo.service.interfaces.IncidentReportService;
 import com.example.ddmdemo.utils.IncidentReportPdfRender;
+import com.example.ddmdemo.utils.VectorizationUtil;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import jakarta.transaction.Transactional;
@@ -109,46 +110,11 @@ public class IncidentReportServiceImpl implements IncidentReportService {
         incidentReportRepository.deleteById(id);
     }
 
-    /*
-    @Override
-    public IncidentReport createIncidentReport(MultipartFile pdfFile, IncidentReport report, String content) {
-        String serverFilename = uploadFileToMinio(pdfFile);
-
-        report.setFilePath(serverFilename);
-        IncidentReport savedIncidentReport = create(report);
-
-        IncidentReportIndex indexDoc = new IncidentReportIndex();
-
-        indexDoc.setEmployeeFullName(savedIncidentReport.getEmployeeFullName());
-        indexDoc.setSecurityOrganizationName(savedIncidentReport.getSecurityOrganizationName());
-        indexDoc.setAttackedOrganizationName(savedIncidentReport.getAttackedOrganizationName());
-        indexDoc.setSeverity(savedIncidentReport.getSeverity().toString());
-        indexDoc.setDatabaseId(savedIncidentReport.getId().toString());
-        indexDoc.setContent(content);
-
-        //TODO: add geoPoint and vectorizedContnent
-
-        // Optional: GeoPoint
-        // indexDoc.setLocation(new GeoPoint(lat, lon));
-
-        // Optional: vectorized content
-        // indexDoc.setVectorizedContent(vector);
-
-        incidentReportIndexRepository.save(indexDoc);
-
-        logToFile(savedIncidentReport, content);
-
-        return savedIncidentReport;
-    }
-
-     */
-
     @Override
     @Transactional
     public IncidentReport createIncidentReport(MultipartFile originalFile,
                                                IncidentReport report,
                                                String content) {
-        // Build a canonical PDF that matches your original layout (no ID/Content)
         byte[] pdfBytes;
         try {
             pdfBytes = IncidentReportPdfRender.render(report, content);
@@ -156,15 +122,42 @@ public class IncidentReportServiceImpl implements IncidentReportService {
             throw new RuntimeException("Failed to render PDF", e);
         }
 
-        // Upload FIRST to the same MinIO key (overwrite), so file_path is known before DB insert
         String objectName = "incident-reports/" + originalFile.getOriginalFilename();
         uploadFileToMinio(pdfBytes, objectName, "application/pdf");
 
-        // Persist with non-null file_path
         report.setFilePath(objectName);
         IncidentReport saved = create(report);
 
-        // Index and log (content unchanged)
+        StringBuilder fullText = new StringBuilder();
+
+        if (saved.getEmployeeFullName() != null) {
+            fullText.append(saved.getEmployeeFullName()).append(" ");
+        }
+        if (saved.getSecurityOrganizationName() != null) {
+            fullText.append(saved.getSecurityOrganizationName()).append(" ");
+        }
+        if (saved.getAttackedOrganizationName() != null) {
+            fullText.append(saved.getAttackedOrganizationName()).append(" ");
+        }
+        if (saved.getSeverity() != null) {
+            fullText.append(saved.getSeverity()).append(" ");
+        }
+        if (content != null) {
+            fullText.append(content).append(" ");
+        }
+        if (saved.getAttackedOrganizationAddress() != null) {
+            fullText.append(saved.getAttackedOrganizationAddress()).append(" ");
+        }
+
+        String textForEmbedding = fullText.toString().trim();
+
+        float[] vectorizedContent;
+        try {
+            vectorizedContent = VectorizationUtil.getEmbedding(textForEmbedding);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to vectorize content", e);
+        }
+
         IncidentReportIndex ix = new IncidentReportIndex();
         ix.setEmployeeFullName(saved.getEmployeeFullName());
         ix.setSecurityOrganizationName(saved.getSecurityOrganizationName());
@@ -184,6 +177,7 @@ public class IncidentReportServiceImpl implements IncidentReportService {
             double lon = coords[1];
             ix.setLocation(lat + "," + lon);
         }
+        ix.setVectorizedContent(vectorizedContent);
         incidentReportIndexRepository.save(ix);
 
         logToFile(saved, content != null ? content : "");
@@ -208,7 +202,6 @@ public class IncidentReportServiceImpl implements IncidentReportService {
         String address = report.getAttackedOrganizationAddress().split(", ")[0];
         String city = report.getAttackedOrganizationAddress().split(", ")[1];
 
-        //TODO: add longitude and latitude & content maybe (description, additonal notes)
         String log = String.format("[%s] IncidentReport saved: " +
                         "id=%s, " +
                         "employee=%s, " +
@@ -238,11 +231,10 @@ public class IncidentReportServiceImpl implements IncidentReportService {
         try {
             String projectRoot = System.getProperty("user.dir");
             Path logDir = Paths.get(projectRoot, "elk", "logstash", "logstash-ingest-data");
-            Files.createDirectories(logDir); // Create folders if they don't exist
+            Files.createDirectories(logDir);
 
             Path logFilePath = logDir.resolve("application.log");
 
-            // Append log entry
             Files.write(logFilePath, (log + System.lineSeparator()).getBytes(),
                     StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {

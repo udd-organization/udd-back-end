@@ -1,11 +1,13 @@
 package com.example.ddmdemo.service.impl;
 
+import co.elastic.clients.elasticsearch._types.KnnQuery;
 import com.example.ddmdemo.dto.IncidentReportDto;
 import com.example.ddmdemo.model.IncidentReport;
 import com.example.ddmdemo.modelIndex.IncidentReportIndex;
 import com.example.ddmdemo.respository.IncidentReportRepository;
 import com.example.ddmdemo.service.interfaces.GeocodingService;
 import com.example.ddmdemo.service.interfaces.SearchService;
+import com.example.ddmdemo.utils.VectorizationUtil;
 import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +29,15 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import org.elasticsearch.common.unit.Fuzziness;
-import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import org.json.JSONObject;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -42,7 +47,6 @@ public class SearchServiceImpl implements SearchService {
     private final ElasticsearchOperations elasticsearchOperations;
     private final IncidentReportRepository incidentReportRepository;
     private final GeocodingService geocodingService;
-    //private final RoutingService routingService;
     private static final int RADIUS_METERS = 500;
     private static final String ORS_PROFILE = "foot-walking";  // ili "driving-car", "cycling-regular", ...
 
@@ -73,6 +77,9 @@ public class SearchServiceImpl implements SearchService {
     {
         if(searchType.equals("geoSearch")){
             return geoSearch(keywords);
+        }
+        if ("knn".equals(searchType)) {
+            return knnSearch(keywords);
         }
 
         List<HighlightField> highlightFields = new ArrayList<>();
@@ -133,6 +140,61 @@ public class SearchServiceImpl implements SearchService {
         }
     }
 
+    public List<IncidentReportDto> knnSearch(List<String> keywords) {
+        try {
+            String text = Strings.join(keywords, " ");
+
+            float[] embedding = VectorizationUtil.getEmbedding(text);
+
+            List<Float> vectorList = new ArrayList<>();
+            for (float f : embedding) {
+                vectorList.add(f);
+            }
+
+            //semanticka vrednost dokumenta (semanticka pretraga KNN)
+            //trazi slicne vektore
+            KnnQuery knnQuery = new KnnQuery.Builder()
+                    .field("vectorizedContent")
+                    .queryVector(vectorList)
+                    .numCandidates(100)
+                    .k(10)
+                    .boost(10.0f)
+                    .build();
+
+            NativeQuery searchQuery = NativeQuery.builder()
+                    .withKnnQuery(knnQuery)
+                    .withMaxResults(5)
+                    .withSearchType(null)
+                    .build();
+
+            var searchHits = elasticsearchOperations.search(searchQuery, IncidentReportIndex.class);
+
+            List<IncidentReportDto> dtos = new ArrayList<>();
+            for (var hit : searchHits) {
+                IncidentReportIndex entity = hit.getContent();
+                Optional<IncidentReport> incidentOpt = incidentReportRepository.findById(UUID.fromString(entity.getDatabaseId()));
+                if (incidentOpt.isPresent()) {
+                    IncidentReport incident = incidentOpt.get();
+                    dtos.add(new IncidentReportDto(
+                            entity.getEmployeeFullName(),
+                            entity.getSecurityOrganizationName(),
+                            entity.getAttackedOrganizationName(),
+                            entity.getSeverity(),
+                            incident.getAttackedOrganizationAddress(),
+                            entity.getContent(),
+                            incident.getFilePath().replaceFirst("^incident-reports/", "")
+                    ));
+                }
+            }
+
+            return dtos;
+
+        } catch (Exception e) {
+            log.error("KNN search failed", e);
+            return List.of();
+        }
+    }
+
     private List<IncidentReportDto> runQuery(NativeQuery searchQuery) {
         var searchHits = elasticsearchOperations.search(
                 searchQuery,
@@ -156,8 +218,6 @@ public class SearchServiceImpl implements SearchService {
             );
 
             try {
-                //String[] location = entity.getLocation().split(",");
-                //dto.address = GeoPointCalculator.GetAddresFromGeoPoint(new GeoPoint(Double.parseDouble(location[0]), Double.parseDouble(location[1])));
                 dto.setAttackedOrganizationAddress(incidentReport.get().getAttackedOrganizationAddress());
             }catch (Exception e){
                 e.printStackTrace();
@@ -165,7 +225,6 @@ public class SearchServiceImpl implements SearchService {
 
             var highlights = hit.getHighlightFields();
             if(highlights != null && !highlights.isEmpty()){
-                //replaceValueForField(dto, highlights);
                 replaceValueForField(dto, highlights);
             }
 
@@ -208,8 +267,7 @@ public class SearchServiceImpl implements SearchService {
         System.out.println("[geoSearch] location=\"" + location + "\"");
 
         try {
-            // 1) Geokodiranje
-            double[] geoPoint = geocodingService.getCoordinates(location); // očekuje [lat, lon]
+            double[] geoPoint = geocodingService.getCoordinates(location);
             if (geoPoint == null || geoPoint.length < 2) {
                 System.err.println("[geoSearch] Geocoding failed for: " + location);
                 throw new RuntimeException("Could not geocode location: " + location);
@@ -218,7 +276,6 @@ public class SearchServiceImpl implements SearchService {
             double srcLon = geoPoint[1];
             System.out.println("[geoSearch] Start coordinates lat=" + srcLat + ", lon=" + srcLon);
 
-            // 2) ES upit (match_all; po želji ovde dodaj dodatne filtere)
             NativeQuery query = NativeQuery.builder()
                     .withQuery(Query.of(q -> q.matchAll(m -> m)))
                     .build();
@@ -228,7 +285,6 @@ public class SearchServiceImpl implements SearchService {
 
             System.out.println("[geoSearch] ES docs fetched: " + searchHits.size());
 
-            // 3) Iteracija i merenje mrežne distance
             List<IncidentReportDto> dtos = new ArrayList<>();
 
             for (SearchHit<IncidentReportIndex> hit : searchHits) {
@@ -249,7 +305,6 @@ public class SearchServiceImpl implements SearchService {
                             + " distance=" + (int) distanceMeters + "m");
 
                     if (distanceMeters <= RADIUS_METERS) {
-                        // 4) Mapiranje u DTO (isto kao u tvom ranijem kodu)
                         Optional<IncidentReport> incidentReportOpt =
                                 incidentReportRepository.findById(UUID.fromString(incident.getDatabaseId()));
 
@@ -292,7 +347,7 @@ public class SearchServiceImpl implements SearchService {
         String url = String.format(
                 "https://api.openrouteservice.org/v2/directions/%s?api_key=%s&start=%f,%f&end=%f,%f",
                 profile,
-                orsApiKey,            // koristi @Value injektovani ključ, ne lokalni apiKey
+                orsApiKey,
                 srcLon, srcLat,       // start = lon,lat
                 dstLon, dstLat        // end   = lon,lat
         );
@@ -303,7 +358,6 @@ public class SearchServiceImpl implements SearchService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
-                // ORS za /directions vraća GeoJSON → Accept uskladi:
                 .header("Accept", "application/geo+json, application/json")
                 .build();
 
@@ -318,7 +372,6 @@ public class SearchServiceImpl implements SearchService {
             throw new RuntimeException("ORS directions failed: HTTP " + status);
         }
 
-        // Pazi: kada je sve ok, telo ima GeoJSON sa "features"
         JSONObject json = new JSONObject(body);
 
         if (!json.has("features")) {
@@ -327,7 +380,6 @@ public class SearchServiceImpl implements SearchService {
             throw new RuntimeException("ORS: 'features' not present in response");
         }
 
-        // distance = features[0].properties.segments[0].distance (u metrima)
         double distance = json.getJSONArray("features")
                 .getJSONObject(0)
                 .getJSONObject("properties")

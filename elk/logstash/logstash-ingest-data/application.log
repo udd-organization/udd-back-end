@@ -158,3 +158,102 @@ Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu., file=incident-r
 Opis: Detektovani višestruki neuspešni pokušaji SSH prijave na server SRV-GW-01 sa IP 203.0.113.57 (≈2.000 pokušaja u 5 min).
 Detekcija: IDS/Fail2Ban upozorenje u 14:23, automatizovano blokiran opseg 203.0.113.0/24., file=incident-reports/incident_report_6.pdf
 
+[2025-10-02T15:48:43.148791800] IncidentReport saved: id=749cf190-9135-498d-bc57-66f490e1f016, employee=Nevena Gligorov, securityOrg=FTN Security, attackedOrg=CityBank Serbia, severity=HIGH, attackedOrgAddress=Dunavska 10, attackedOrgCity=Novi Sad, latitude=45.2563334, longitude=19.8493463, content=Izveštaj o incidentu
+
+Opis: Emisija zlonamernog softvera sa blagajničke radne stanice.
+Dodatne napomene: Krajnja tačka je stavljena u karantin; IOC pretraga filijale je završena., file=incident-reports/incident_report_11.pdf
+
+[2025-10-02T16:03:08.678691500] IncidentReport saved: id=1640a0e2-f5f0-4ad0-bc34-8abf28985ef0, employee=Ana Radovanović, securityOrg=InfoGuard Novi Sad, attackedOrg=Kalem d.o.o., severity=MEDIUM, attackedOrgAddress=Danila Kiša 13, attackedOrgCity=Novi Sad, latitude=45.2483409, longitude=19.8370247, content=Incident Report
+
+Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
+prekide veze.
+Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu., file=incident-reports/izvestaj_2 (1) (1).pdf
+
+[2025-10-02T16:18:52.466040] IncidentReport saved: id=b63aca18-161f-455e-a1fd-a6cbf1667440, employee=MIlica Petrović, securityOrg=Bezbednost d.o.o, attackedOrg=Telenor Srbija, severity=CRITICAL, attackedOrgAddress=Bulevar Oslobođenja 10, attackedOrgCity=Novi Sad, latitude=45.2624155, longitude=19.8307792, content=Incident Report
+
+Description: Višestruki neuspešni pokušaji napada telenor platnih kartica. Prijave
+zabeležene na bezbednosnom serveru.
+Additional Notes: IP adrese blokirane, korisnici primorani na promenu PIN-a., file=incident-reports/izvestaj_1.pdf
+
+[2025-10-02T16:25:28.745990200] IncidentReport saved: id=891718f2-8d3b-4585-8607-1cccd57b4c55, employee=Nevena Gligorov, securityOrg=SecurityHub, attackedOrg=Narodna Banka, severity=CRITICAL, attackedOrgAddress=Dunavska 3, attackedOrgCity=Novi Sad, latitude=45.2568232, longitude=19.8486227, content=Izveštaj o incidentu
+
+Opis: Emisija zlonamernog softvera sa blagajničke radne stanice.
+Dodatne napomene: Krajnja tačka je stavljena u karantin; IOC pretraga filijale je završena., file=incident-reports/izvestaj_incident_1.pdf
+
+[2025-10-02T19:41:06.578253100] IncidentReport saved: id=3c1bb38f-9640-4d78-a31f-1078e09a691a, employee=Ana Radovanović, securityOrg=InfoGuard Novi Sad, attackedOrg=Kalem d.o.o., severity=HIGH, attackedOrgAddress=Danila Kiša 13, attackedOrgCity=Novi Sad, latitude=45.2483409, longitude=19.8370247, content=Incident Report
+
+Description: POS terminali prikazuju neuobičajen odlazni saobraćaj i povremene
+prekide veze.
+Additional Notes: Forenzičke kopije uzete; sumnjivi domeni dodati na blok listu., file=incident-reports/izvestaj_2 (1) (1).pdf
+
+[2025-10-02T19:44:59.131974200] IncidentReport saved: id=ec966bdd-37d5-4a69-8187-49390948b882, employee=Svetozar Ivić, securityOrg=Security Novi Sad, attackedOrg=Telenor, severity=HIGH, attackedOrgAddress=Dunavska 3, attackedOrgCity=Novi Sad, latitude=45.2568232, longitude=19.8486227, content=Incident Report
+
+Description: Višestruki neuspeli pokušaji prijave na administratorski nalog. Aktivnost detektovana na firewall-u.
+Additional Notes: IP adrese napadača blokirane; obavešten tim za sajber bezbednost., file=incident-reports/izvestaj_2 (1).pdf
+
+[2025-10-02T19:49:32.997722200] IncidentReport saved: id=f8344fb5-ae3b-4a65-bb28-3467307e3348, employee=Milica Petrović, securityOrg=Bezbednost d.o.o, attackedOrg=Telenor Srbija, severity=HIGH, attackedOrgAddress=Bulevar Oslobođenja 10, attackedOrgCity=Novi Sad, latitude=45.2624155, longitude=19.8307792, content=Incident Report
+
+Description: Višestruki neuspešni pokušaji napada telenor platnih kartica. Prijave
+zabeležene na bezbednosnom serveru.
+Additional Notes: IP adrese blokirane, korisnici primorani na promenu PIN-a., file=incident-reports/izvestaj_1.pdf
+
+[2025-10-02T19:50:53.883524] IncidentReport saved: id=5a83cad5-eaf4-4d52-b606-3af4dc4ec393, employee=Nevena Gligorov, securityOrg=RedFort Security, attackedOrg=MediLab Clinic, severity=LOW, attackedOrgAddress=Dunavska 11, attackedOrgCity=Novi Sad, latitude=45.2568568, longitude=19.8490811, content=Incident Report
+
+Opis: Nezakrpljena radna stanica otkrivena tokom rutinskog skeniranja.
+Dodatne napomene: Zakrpljivanje je zakazano; korisniku je naloženo da ostavi uređaj uključen preko noći., file=incident-reports/incident_report_6.pdf
+
+[2025-10-02T19:52:32.784273] IncidentReport saved: id=b0d2933c-f40a-4600-a0fa-fffae9660c6c, employee=Kristina Zelić, securityOrg=InfoGuard Belgrade, attackedOrg=Telenor, severity=HIGH, attackedOrgAddress=Bulevar Oslobođenja 14, attackedOrgCity=Novi Sad, latitude=45.2616972, longitude=19.8304926, content=Incident Report
+
+Description: Detektovan neuobičajen mrežni saobraćaj sa serverskog čvora; primećeni pikovi u odlaznim konekcijama.
+Additional Notes: Sumnjivi paketi analizirani, privremeno onemogućeni svi spoljašnji API pozivi., file=incident-reports/incident_report_4.pdf
+
+[2025-10-02T19:53:37.620125900] IncidentReport saved: id=2f970dbf-6cd5-41ed-929f-c62bd274a70e, employee=Stefan Lojpur, securityOrg=SecurityHub, attackedOrg=FTN, severity=HIGH, attackedOrgAddress=Danila Kiša 5, attackedOrgCity=Novi Sad, latitude=45.2490816, longitude=19.8375457, content=Incident Report
+
+Opis: Otkriveni su pokušaji grube sile protiv VPN gejtveja.
+Dodatne napomene: Ograničenje brzine je prilagođeno; pokrenuta je MFA revizija., file=incident-reports/incident_report_8.pdf
+
+[2025-10-02T19:54:37.430822100] IncidentReport saved: id=695bf329-f5d6-453d-b04d-8938f090dbf1, employee=Anja Todorović, securityOrg=SecureWorks Subotica, attackedOrg=Narodna Banka, severity=CRITICAL, attackedOrgAddress=Dunavska 8, attackedOrgCity=Novi Sad, latitude=45.256271, longitude=19.8489735, content=Incident Report
+
+Opis: Otkrivena je poruka o ransomware-u na dva fajl servera.
+Dodatne napomene: Serveri izolovani; rezervne kopije potvrđene; odgovor na incident je angažovan., file=incident-reports/incident_report_5.pdf
+
+[2025-10-02T19:56:49.678555200] IncidentReport saved: id=4a871d0d-6c39-49ae-9cfb-976576b3074f, employee=Milica Mačkić, securityOrg=NorthGuard Novi Sad, attackedOrg=Banka Intesa, severity=MEDIUM, attackedOrgAddress=Futoški put 1, attackedOrgCity=Novi Sad, latitude=45.2480663, longitude=19.815781, content=Incident Report
+
+Opis: WAF je prijavio ponovljeno SQLi ispitivanje na krajnjoj tački /search.
+Dodatne napomene: Pravila su pooštrena; opsezi IP adresa koji krše pravila blokirani su 72 sata., file=incident-reports/incident_report_12.pdf
+
+[2025-10-02T19:57:54.209005100] IncidentReport saved: id=0fadda44-c5b3-4f05-b4b5-51ee7d67b5b3, employee=Katarina Perović, securityOrg=CyberSec Niš, attackedOrg=IT Firma, severity=CRITICAL, attackedOrgAddress=Futoški Put 8, attackedOrgCity=Novi Sad, latitude=45.248951, longitude=19.8105635, content=Incident Report
+
+Opis: E-pošta sa ciljem fišinga stigla je u poštansko sanduče rukovodstva.
+Dodatne napomene: E-pošta je prijavljena provajderu; domen je blokiran; planirana je obuka za podizanje svesti., file=incident-reports/incident_report_7.pdf
+
+[2025-10-02T19:59:36.209214600] IncidentReport saved: id=12623fec-121f-41ef-a13f-a9c9dbb1be67, employee=Leopoldina Đanić, securityOrg=SecureTech, attackedOrg=Finance Crop, severity=CRITICAL, attackedOrgAddress=Vojvodjanskih Brigada 10, attackedOrgCity=Novi Sad, latitude=45.2508041, longitude=19.8460226, content=Incident Report
+
+Opis: Otkriven neobičan odlazni saobraćaj sa radne stanice.
+Dodatne napomene: Saobraćaj je označen, ali nije potvrđeno izvlačenje podataka., file=incident-reports/incident_report_3.pdf
+
+[2025-10-02T20:40:36.125360400] IncidentReport saved: id=58861642-4c42-4c30-bc05-c65236e22c25, employee=Ana Škundrić, securityOrg=Guardian Cyber Group, attackedOrg=CityBank, severity=HIGH, attackedOrgAddress=Kralja Milutina 2, attackedOrgCity=Beograd, latitude=44.7655189, longitude=20.5485879, content=Incident Report
+
+Opis: Otkriveno je otkrivanje zlonamernog softvera sa blagajničke radne stanice.
+Dodatne napomene: Krajnja tačka je stavljena u karantin; IOC pretraga filijale je završena., file=incident-reports/incident_report_en_9.pdf
+
+[2025-10-02T20:41:59.379105500] IncidentReport saved: id=cfa39098-83cc-4a37-9646-e2674241df79, employee=Anđela Moćević, securityOrg=IronGate Security, attackedOrg=HealthFirst Clinic, severity=LOW, attackedOrgAddress=Kralja Milutina 1, attackedOrgCity=Beograd, latitude=44.7651816, longitude=20.548601, content=Incident Report
+
+Opis: Zastareli firmver radne stanice pronađen tokom rutinskog skeniranja.
+Dodatne napomene: Zakazana je zakrpa; korisniku je zatraženo da ostavi uređaj uključen preko noći., file=incident-reports/incident_report_en_4.pdf
+
+[2025-10-02T21:40:05.132718100] IncidentReport saved: id=63c932f8-8ee7-4828-85a4-6381debb9925, employee=Petar Petrović, securityOrg=SecureOrg, attackedOrg=MTS, severity=LOW, attackedOrgAddress=Vojvođanskih Brigada 10, attackedOrgCity=Novi Sad, latitude=45.2508041, longitude=19.8460226, content=Incident Report
+
+Description: Uočen je neuobičajen izlazni saobraćaj sa internog fajl servera ka eksternim domenima.
+Additional Notes: Moguća egzfiltracija podataka. Forenzička analiza u toku; pogođeni server izolovan iz mreže., file=incident-reports/doc_1.pdf
+
+[2025-10-02T21:41:22.934423300] IncidentReport saved: id=b27b19f9-6ac1-4658-9ba5-1fdf72798a28, employee=Aleksa Ivić, securityOrg=Tri leće hub, attackedOrg=PMF, severity=MEDIUM, attackedOrgAddress=Vojvođanskih Brigada 12, attackedOrgCity=Novi Sad, latitude=45.2507095, longitude=19.8459263, content=Incident Report
+
+Description: Uočen je neuobičajen izlazni saobraćaj sa internog fajl servera ka eksternim domenima.
+Additional Notes: Moguća egzfiltracija podataka. Forenzička analiza u toku; pogođeni server izolovan iz mreže., file=incident-reports/doc_2.pdf
+
+[2025-10-02T21:42:14.253715] IncidentReport saved: id=72210bed-f380-488b-90e7-aa11d7596c12, employee=Maša Ivić, securityOrg=Multitarte, attackedOrg=Ekonomski Fakultet, severity=MEDIUM, attackedOrgAddress=Vojvođanskih Brigada 8, attackedOrgCity=Novi Sad, latitude=45.2510677, longitude=19.8463346, content=Incident Report
+
+Description: Uočen je neuobičajen izlazni saobraćaj sa internog fajl servera ka eksternim domenima.
+Additional Notes: Moguća egzfiltracija podataka. Forenzička analiza u toku; pogođeni server izolovan iz mreže., file=incident-reports/doc_3.pdf
+
